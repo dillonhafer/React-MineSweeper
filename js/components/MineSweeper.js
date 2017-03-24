@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from './Table.js';
+import Table from './Table';
 
 export default class MineSweeper extends React.Component {
   constructor(props) {
@@ -63,9 +63,10 @@ export default class MineSweeper extends React.Component {
   }
 
   addOpenNum() {
-    if(this.state.openNum === 0){
+    if (this.state.openNum === 0) {
       this.interval = setInterval(this.tick.bind(this), 1000);
     }
+
     this.setState({
       openNum : ++ this.state.openNum
     });

@@ -170,7 +170,7 @@ embed {
       display: block; }
     .MineSweeper__face .playing::before { content: "😀"; }
     .MineSweeper__face .clear::before { content: "😎"; }
-    .MineSweeper__face .gameover::before { content: "😵"; }
+    .MineSweeper__face .gameover::before { content: "💀"; }
 
 .Table {
   border: 1px solid #ccc;
