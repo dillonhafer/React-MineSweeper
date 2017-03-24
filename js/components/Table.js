@@ -12,8 +12,7 @@ export default class Table extends React.Component {
     componentWillReceiveProps(nextProps) {
       if (this.props.status !== "gameover" && nextProps.status === "gameover") {
         this.setState({
-          gameover: true,
-          rows : this.createTable(nextProps, true)
+          gameover: true
         });
       }
 
@@ -30,7 +29,7 @@ export default class Table extends React.Component {
         });
       }
     }
-    createTable(props, forceOpen = false) {
+    createTable(props) {
         var mineTable = [];
         for(var row = 0; row < props.rowNum; row++){
             mineTable.push([]);
@@ -51,9 +50,6 @@ export default class Table extends React.Component {
                 i--;
             } else {
                 cell.hasMine = true;
-                if (forceOpen) {
-                  cell.isOpened = true;
-                }
             }
         }
         return mineTable;
@@ -128,7 +124,7 @@ export default class Table extends React.Component {
     render() {
         var Rows = this.state.rows.map((row, index) => {
             return(
-              <Row cells={row} openAround={this.openAroundAll.bind(this)} open={this.open.bind(this)} mark={this.mark.bind(this)} />
+              <Row cells={row} gameover={this.state.gameover} openAround={this.openAroundAll.bind(this)} open={this.open.bind(this)} mark={this.mark.bind(this)} />
             );
         });
         return(

@@ -34,7 +34,7 @@ export default class Cell extends React.Component {
     render() {
         var _this = this;
         var cell = () => {
-            if(_this.state.isOpened){
+            if(_this.state.isOpened || (this.props.gameover && this.state.hasMine)){
                 if(_this.state.hasMine){
                     return (
                       <div className="Cell__cover Cell__cover--opened">

@@ -18,6 +18,7 @@ export default class Row extends React.Component {
     return <Cell key={`cell-${index}`}
                  cell={cell}
                  openAround={this.props.openAround}
+                 gameover={this.props.gameover}
                  open={this.props.open}
                  mark={this.props.mark} />
   }
