@@ -17,9 +17,16 @@ export default class Table extends React.Component {
         });
       }
 
+      if (this.props.status === "gameover" && nextProps.status === "clear") {
+        this.setState({
+          gameover: false
+        });
+      }
+
       if(this.props.openNum > nextProps.openNum || this.props.colNum !== nextProps.colNum){
         this.setState({
-          rows : this.createTable(nextProps),
+          rows: this.createTable(nextProps),
+          gameover: false
         });
       }
     }
