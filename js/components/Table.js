@@ -56,30 +56,37 @@ export default class Table extends React.Component {
         }
         return mineTable;
     }
-    open = (cell) => {
-      if (this.state.gameover) {
-        return;
-      }
-        var num = this.countMines(cell);
-        var _rows = this.state.rows;
-        if(!_rows[cell.y][cell.x].isOpened){
-            this.props.addOpenNum();
-        }
-        _rows[cell.y][cell.x].isOpened = true;
-        _rows[cell.y][cell.x].count = cell.hasMine ? "b" : num;
-        this.setState({rows : _rows});
-        if(_rows[cell.y][cell.x].hasFlag){
-            _rows[cell.y][cell.x].hasFlag = false;
-            this.props.checkFlagNum(-1);
-        }
-        if(!cell.hasMine && num === 0){
-            this.openAround(cell);
-        }
-        if(cell.hasMine){
-            this.props.gameOver();
-        }
+  open = (cell) => {
+    if (this.state.gameover || cell.hasQuestion || cell.hasFlag) {
+      return;
     }
-  mark = (cell) => {
+
+    const num = this.countMines(cell);
+    let _rows = this.state.rows;
+
+    if(!_rows[cell.y][cell.x].isOpened){
+      this.props.addOpenNum();
+    }
+    _rows[cell.y][cell.x].isOpened = true;
+    _rows[cell.y][cell.x].count = cell.hasMine ? "b" : num;
+
+    this.setState({rows : _rows});
+
+    if(_rows[cell.y][cell.x].hasFlag){
+      _rows[cell.y][cell.x].hasFlag = false;
+      this.props.checkFlagNum(-1);
+    }
+
+    if(!cell.hasMine && num === 0){
+      this.openAround(cell);
+    }
+
+    if(cell.hasMine){
+      this.props.gameOver();
+    }
+  }
+
+    mark = (cell) => {
         if (this.state.gameover) {
           return
         }
