@@ -41,6 +41,9 @@ export default class Table extends React.Component {
         }
         return mineTable;
     }
+    openSurround(cell) {
+      console.log("open surraoun");
+    }
     open(cell) {
         var num = this.countMines(cell);
         var _rows = this.state.rows;
@@ -79,6 +82,16 @@ export default class Table extends React.Component {
         }
         return aroundMinesNum;
     }
+    openAroundAll(cell){
+        var _rows = this.state.rows;
+        for(var row = -1; row <= 1; row++){
+            for(var col = -1; col <= 1; col++){
+                if(cell.y-0 + row >= 0 && cell.x-0 + col >= 0 && cell.y-0 + row < this.state.rows.length && cell.x-0 + col < this.state.rows[0].length && !this.state.rows[cell.y-0 + row][cell.x-0 + col].hasFlag && !this.state.rows[cell.y-0 + row][cell.x-0 + col].isOpened){
+                   this.open(_rows[cell.y-0 + row][cell.x-0 + col]);
+                }
+            }
+        }
+    }
     openAround(cell){
         var _rows = this.state.rows;
         for(var row = -1; row <= 1; row++){
@@ -92,7 +105,7 @@ export default class Table extends React.Component {
     render() {
         var Rows = this.state.rows.map((row, index) => {
             return(
-                <Row cells={row} open={this.open.bind(this)} mark={this.mark.bind(this)} />
+              <Row cells={row} openAround={this.openAroundAll.bind(this)} open={this.open.bind(this)} mark={this.mark.bind(this)} />
             );
         });
         return(

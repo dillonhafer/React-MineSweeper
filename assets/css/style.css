@@ -115,23 +115,36 @@ embed {
     text-align: center;
     padding: 10px; }
     .MineSweeper__level label {
+      border-top: 3px solid gray;
+      padding: 20px;
+      padding-top: 10px;
+      cursor: pointer;
       margin: 0 10px; }
+    .MineSweeper__level label:hover {
+      border-top: 3px solid cornflowerblue;
+    }
+    .MineSweeper__level input[type="radio"]:checked+label{ border-top: 3px solid #69F }
     .MineSweeper__level input[type=radio] {
+      display: none;
       margin-right: 5px; }
+  .MineSweeper__flagNum::before { content: "🚩"; }
   .MineSweeper__flagNum {
     position: absolute;
     right: 10px;
     top: 10px;
-    background: url("../images/icn_flag_01.png") no-repeat left center;
     padding-left: 25px; }
+  .MineSweeper__time::before { content: "⏱"; font-size: 20px; }
   .MineSweeper__time {
     position: absolute;
     left: 10px;
     top: 10px;
-    background: url("../images/icn_clock_01.png") no-repeat left center;
     padding-left: 30px; }
+  .MineSweeper__face:active {
+    background-color: #ccc;
+  }
   .MineSweeper__face {
     position: absolute;
+    cursor: pointer;
     top: 4px;
     left: 50%;
     margin-left: -17px;
@@ -142,24 +155,26 @@ embed {
       border-width: 1px;
       border-style: solid;
       border-color: #fff #999 #999 #fff;
+      text-align: center;
+      font-size: 23px;
       height: 100%;
       display: block; }
-    .MineSweeper__face .playing {
-      background: url("../images/icn_face_01.png") no-repeat center center, #ccc; }
-    .MineSweeper__face .clear {
-      background: url("../images/icn_face_02.png") no-repeat center center, #ccc; }
-    .MineSweeper__face .gameover {
-      background: url("../images/icn_face_03.png") no-repeat center center, #ccc; }
+    .MineSweeper__face .playing::before { content: "😀"; }
+    .MineSweeper__face .clear::before { content: "😎"; }
+    .MineSweeper__face .gameover::before { content: "😵"; }
 
 .Table {
   border: 1px solid #ccc;
   margin: 0 auto; }
 
+.Cell:active .Cell__cover {
+  background-color: #aaa;
+}
 .Cell {
   border: 1px solid #bbb;
   font-size: 20px;
-  width: 30px;
-  height: 28px;
+  width: 29px;
+  height: 32px;
   text-align: center;
   vertical-align: middle; }
   .Cell__cover {
@@ -190,14 +205,10 @@ embed {
   .Cell__number8 {
     color: #666; }
   .Cell__flag {
-    background: url("../images/icn_flag_01.png") no-repeat center center;
-    text-indent: -9999px;
     overflow: hidden;
     display: block;
     height: 100%; }
   .Cell__bomb {
-    background: url("../images/icn_bomb_01.png") no-repeat center center;
-    text-indent: -9999px;
     overflow: hidden;
     display: block;
     height: 100%; }

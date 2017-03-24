@@ -78,46 +78,35 @@ export default class MineSweeper extends React.Component {
         this.setState({level: "hard", mineNum: 100, rowNum: 16, colNum: 30, openNum: 0, flagNum: 0, time: 0, status: "playing"});
     }
     render() {
-        var _this = this;
-        var level = () => {
-            if(_this.state.level === "easy"){
-                return (
-                    <div className="MineSweeper__level">
-                        <label><input type="radio" name="level" onChange={this.setEasy.bind(this)} checked />easy</label>
-                        <label><input type="radio" name="level" onChange={this.setNormal.bind(this)} />normal</label>
-                        <label><input type="radio" name="level" onChange={this.setHard.bind(this)} />hard</label>
-                    </div>
-                );
-            } else if(_this.state.level === "normal"){
-                return (
-                    <div className="MineSweeper__level">
-                        <label><input type="radio" name="level" onChange={this.setEasy.bind(this)} />easy</label>
-                        <label><input type="radio" name="level" onChange={this.setNormal.bind(this)} checked />normal</label>
-                        <label><input type="radio" name="level" onChange={this.setHard.bind(this)} />hard</label>
-                    </div>
-                );
-            } else if(_this.state.level === "hard"){
-                return (
-                    <div className="MineSweeper__level">
-                        <label><input type="radio" name="level" onChange={this.setEasy.bind(this)} />easy</label>
-                        <label><input type="radio" name="level" onChange={this.setNormal.bind(this)} />normal</label>
-                        <label><input type="radio" name="level" onChange={this.setHard.bind(this)} checked />hard</label>
-                    </div>
-                );
-            }
-        }();
-        return (
-            <div>
-                {level}
-                <div className={"MineSweeper " + this.state.level}>
-                    <span className="MineSweeper__flagNum"> {this.state.mineNum - this.state.flagNum}</span>
-                    <span className="MineSweeper__face" onClick={this.reset.bind(this)}>
-                        <span className={"button " + this.state.status}></span>
-                    </span>
-                    <span className="MineSweeper__time"> {this.state.time}</span>
-                    <Table openNum={this.state.openNum} mineNum={this.state.mineNum} rowNum={this.state.rowNum} colNum={this.state.colNum} gameOver={this.gameOver.bind(this)} addOpenNum={this.addOpenNum.bind(this)} checkFlagNum={this.checkFlagNum.bind(this)}/>
-                </div>
-            </div>
-        );
+      return (
+        <div>
+          <div className="MineSweeper__level">
+            <input type="radio"
+                   id="levelEasy"
+                   name="level"
+                   onChange={this.setEasy.bind(this, "easy")}
+                   checked={this.state.level === "easy"} />
+            <label htmlFor="levelEasy">Easy</label>
+            <input type="radio"
+                   id="levelNormal"
+                   name="level"
+                   onChange={this.setNormal.bind(this, "normal")} />
+            <label htmlFor="levelNormal">Normal</label>
+            <input type="radio"
+                   id="levelHard"
+                   name="level"
+                   onChange={this.setHard.bind(this, "hard")} />
+            <label htmlFor="levelHard">Hard</label>
+          </div>
+          <div className={"MineSweeper " + this.state.level}>
+            <span className="MineSweeper__flagNum"> {this.state.mineNum - this.state.flagNum}</span>
+            <span className="MineSweeper__face" onClick={this.reset.bind(this)}>
+              <span className={"button " + this.state.status}></span>
+            </span>
+            <span className="MineSweeper__time"> {this.state.time}</span>
+            <Table openNum={this.state.openNum} mineNum={this.state.mineNum} rowNum={this.state.rowNum} colNum={this.state.colNum} gameOver={this.gameOver.bind(this)} addOpenNum={this.addOpenNum.bind(this)} checkFlagNum={this.checkFlagNum.bind(this)}/>
+          </div>
+        </div>
+      );
     }
 }
