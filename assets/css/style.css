@@ -1,4 +1,12 @@
 @charset "UTF-8";
+html {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
 /* ----------------------------------------------------
 * reset style
 * -------------------------------------------------- */
@@ -7,7 +15,7 @@ section, article, aside, hgroup, header, footer, nav, figure, figcaption, summar
   display: block; }
 
 body {
-  font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Meiryo, "メイリオ", "ＭＳ Ｐゴシック", Verdana, Geneva, Arial, Helvetica;
+  font-family: "Hiragino Kaku Gothic Pro", Meiryo, "メイリオ", "ＭＳ Ｐゴシック", Verdana, Geneva, Arial, Helvetica;
   word-wrap: break-word;
   word-break: break-all; }
 
@@ -171,6 +179,7 @@ embed {
   background-color: #aaa;
 }
 .Cell {
+  cursor: default;
   border: 1px solid #bbb;
   font-size: 20px;
   width: 29px;
