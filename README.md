@@ -1,6 +1,6 @@
 # MineSweeper
 
-This is a MineSweeper Game.
+This is a MineSweeper Game with emojis.
 
 ![MineSweeper](/assets/minesweeper.png "MineSweeper")
 
