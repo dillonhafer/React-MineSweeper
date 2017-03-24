@@ -104,7 +104,7 @@ export default class MineSweeper extends React.Component {
               <span className={"button " + this.state.status}></span>
             </span>
             <span className="MineSweeper__time"> {this.state.time}</span>
-            <Table openNum={this.state.openNum} mineNum={this.state.mineNum} rowNum={this.state.rowNum} colNum={this.state.colNum} gameOver={this.gameOver.bind(this)} addOpenNum={this.addOpenNum.bind(this)} checkFlagNum={this.checkFlagNum.bind(this)}/>
+            <Table status={this.state.status} openNum={this.state.openNum} mineNum={this.state.mineNum} rowNum={this.state.rowNum} colNum={this.state.colNum} gameOver={this.gameOver.bind(this)} addOpenNum={this.addOpenNum.bind(this)} checkFlagNum={this.checkFlagNum.bind(this)}/>
           </div>
         </div>
       );

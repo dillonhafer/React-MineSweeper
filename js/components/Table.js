@@ -3,18 +3,22 @@ import Row from './Row.js';
 
 export default class Table extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = {
-            rows : this.createTable(props)
-        };
+      super(props);
+      this.state = {
+        rows : this.createTable(props),
+        gameover: false
+      };
     }
     componentWillReceiveProps(nextProps) {
-        if(this.props.openNum > nextProps.openNum || this.props.colNum !== nextProps.colNum){
-            this.setState({
-                rows : this.createTable(nextProps)
-            });
-        }
+      if (this.props.status !== "gameover" && nextProps.status === "gameover") {
+        this.setState({gameover: true});
+      }
 
+      if(this.props.openNum > nextProps.openNum || this.props.colNum !== nextProps.colNum){
+        this.setState({
+          rows : this.createTable(nextProps),
+        });
+      }
     }
     createTable(props) {
         var mineTable = [];
@@ -41,10 +45,10 @@ export default class Table extends React.Component {
         }
         return mineTable;
     }
-    openSurround(cell) {
-      console.log("open surraoun");
-    }
     open(cell) {
+      if (this.state.gameover) {
+        return;
+      }
         var num = this.countMines(cell);
         var _rows = this.state.rows;
         if(!_rows[cell.y][cell.x].isOpened){
@@ -65,6 +69,9 @@ export default class Table extends React.Component {
         }
     }
     mark(cell) {
+        if (this.state.gameover) {
+          return
+        }
         var _rows = this.state.rows;
         var _cell = _rows[cell.y][cell.x];
         _cell.hasFlag = !_cell.hasFlag;
@@ -82,7 +89,10 @@ export default class Table extends React.Component {
         }
         return aroundMinesNum;
     }
-    openAroundAll(cell){
+    openAroundAll(cell) {
+      if (this.state.gameover) {
+        return;
+      }
         var _rows = this.state.rows;
         for(var row = -1; row <= 1; row++){
             for(var col = -1; col <= 1; col++){
