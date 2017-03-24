@@ -212,3 +212,7 @@ embed {
     overflow: hidden;
     display: block;
     height: 100%; }
+
+.open-bomb {
+  background-color: pink;
+}
