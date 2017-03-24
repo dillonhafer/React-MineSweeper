@@ -1,71 +1,96 @@
 import React from 'react';
+import classNames from 'classnames';
 
 export default class Cell extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            hasMine : props.cell.hasMine,
-            hasFlag : props.cell.hasFlag,
-            isOpened : props.cell.isOpened,
-            count : 0
-        };
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasMine: props.cell.hasMine,
+      hasFlag: props.cell.hasFlag,
+      isOpened: props.cell.isOpened,
+      count: 0
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      isOpened: nextProps.cell.isOpened,
+      hasMine: nextProps.cell.hasMine,
+      hasFlag: nextProps.cell.hasFlag,
+      count: nextProps.cell.count
+    });
+  }
+
+  open = () => {
+    this.props.open(this.props.cell);
+  }
+
+  openAround = (e) => {
+    e.preventDefault();
+    this.props.openAround(this.props.cell);
+  }
+
+  mark = (e) => {
+    e.preventDefault();
+    if(!this.state.isOpened){
+      this.props.mark(this.props.cell);
     }
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            isOpened : nextProps.cell.isOpened,
-            hasMine : nextProps.cell.hasMine,
-            hasFlag : nextProps.cell.hasFlag,
-            count : nextProps.cell.count
-        });
+  }
+
+  getCellType = () => {
+    const openCell = this.isOpen();
+
+    let cellType = "closed";
+    if (openCell && this.state.hasMine) {
+      cellType = "mine";
+    } else if (openCell) {
+      cellType = "number";
+    } else if (this.state.hasFlag) {
+      cellType = "flag";
     }
-    open() {
-        this.props.open(this.props.cell);
+    return cellType;
+  }
+
+  isOpen = () => {
+    const gameOverMine = (this.props.gameover && this.state.hasMine);
+    return this.state.isOpened || gameOverMine;
+  }
+
+  getCell() {
+    const coverClasses = classNames(
+      "Cell__cover",
+      {
+        "open-bomb": this.state.hasMine && this.isOpen(),
+        "Cell__cover--opened": this.state.isOpened
+      }
+    );
+
+    const cellType = this.getCellType();
+    const cellClasses = {
+      mine: "Cell__bomb",
+      number: "Cell__number"+this.state.count,
+      flag: "Cell__flag"
     }
-    openAround(e) {
-      e.preventDefault();
-      this.props.openAround(this.props.cell);
+
+    const cellContent = {
+      mine: "💥",
+      number: this.state.count > 0 ? this.state.count : '',
+      flag: "🚩"
     }
-    mark(e) {
-        e.preventDefault();
-        if(!this.state.isOpened){
-            this.props.mark(this.props.cell);
-        }
-    }
-    render() {
-        var _this = this;
-        var cell = () => {
-          const gameOverMine = (this.props.gameover && this.state.hasMine);
-            if (_this.state.isOpened || gameOverMine) {
-                if(_this.state.hasMine){
-                    return (
-                      <div className="Cell__cover open-bomb Cell__cover--opened">
-                        <span className="Cell__bomb">💥</span>
-                      </div>
-                    );
-                } else {
-                    return (
-                        <div className="Cell__cover Cell__cover--opened">
-                      <span className={"Cell__number"+_this.state.count}>{_this.state.count > 0 ? _this.state.count : ''}</span>
-                        </div>
-                    );
-                }
-            } else if(_this.state.hasFlag){
-                return (
-                    <div className="Cell__cover Cell__cover--opened">
-                        <span className="Cell__flag">🚩</span>
-                    </div>
-                );
-            } else {
-                return (
-                    <div className="Cell__cover"></div>
-                );
-            }
-        }();
-        var handleOnContextMenu = this.state.isOpened ? this.openAround : this.mark;
-        return (
-            <td className="Cell" onClick={this.open.bind(this)} onContextMenu={handleOnContextMenu.bind(this)}>
-                {cell}
-            </td>
-        );
-    }
+
+    return (
+      <div className={coverClasses}>
+        <span className={cellClasses[cellType]}>{cellContent[cellType]}</span>
+      </div>
+    );
+  }
+
+  render() {
+    const handleOnContextMenu = this.state.isOpened ? this.openAround : this.mark;
+    return (
+      <td className="Cell" onClick={this.open} onContextMenu={handleOnContextMenu}>
+        {this.getCell()}
+      </td>
+    );
+  }
 }

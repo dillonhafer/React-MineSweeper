@@ -1,7 +1,8 @@
 import React from 'react';
-import MineSweeper from './components/MineSweeper.js';
+import ReactDOM from 'react-dom';
+import MineSweeper from './components/MineSweeper';
 
-React.render(
+ReactDOM.render(
   <MineSweeper />,
   document.getElementById('MineSweeper')
 );
