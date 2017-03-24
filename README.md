@@ -2,6 +2,8 @@
 
 This is a MineSweeper Game.
 
+![MineSweeper](/assets/minesweeper.png "MineSweeper")
+
 ## Setup
 ```
 $ yarn install
