@@ -124,7 +124,7 @@ export default class Table extends React.Component {
     render() {
         var Rows = this.state.rows.map((row, index) => {
             return(
-              <Row cells={row} gameover={this.state.gameover} openAround={this.openAroundAll.bind(this)} open={this.open.bind(this)} mark={this.mark.bind(this)} />
+              <Row key={`row-${index}`} cells={row} gameover={this.state.gameover} openAround={this.openAroundAll.bind(this)} open={this.open.bind(this)} mark={this.mark.bind(this)} />
             );
         });
         return(
