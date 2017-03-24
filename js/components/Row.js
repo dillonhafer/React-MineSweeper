@@ -4,17 +4,16 @@ import Cell from './Cell';
 export default class Row extends React.Component {
   constructor(props) {
     super(props);
-    this.getCell = this.getCell.bind(this);
     this.state = {
       cells: props.cells
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({cells : nextProps.cells});
+    this.setState({cells: nextProps.cells});
   }
 
-  getCell(cell, index) {
+  getCell = (cell, index) => {
     return <Cell key={`cell-${index}`}
                  cell={cell}
                  openAround={this.props.openAround}

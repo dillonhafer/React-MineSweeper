@@ -7,6 +7,7 @@ export default class Cell extends React.Component {
     this.state = {
       hasMine: props.cell.hasMine,
       hasFlag: props.cell.hasFlag,
+      hasQuestion: props.cell.hasQuestion,
       isOpened: props.cell.isOpened,
       count: 0
     };
@@ -17,6 +18,7 @@ export default class Cell extends React.Component {
       isOpened: nextProps.cell.isOpened,
       hasMine: nextProps.cell.hasMine,
       hasFlag: nextProps.cell.hasFlag,
+      hasQuestion: nextProps.cell.hasQuestion,
       count: nextProps.cell.count
     });
   }
@@ -47,6 +49,8 @@ export default class Cell extends React.Component {
       cellType = "number";
     } else if (this.state.hasFlag) {
       cellType = "flag";
+    } else if (this.state.hasQuestion) {
+      cellType = "question";
     }
     return cellType;
   }
@@ -69,13 +73,15 @@ export default class Cell extends React.Component {
     const cellClasses = {
       mine: "Cell__bomb",
       number: "Cell__number"+this.state.count,
-      flag: "Cell__flag"
+      flag: "Cell__flag",
+      question: "Cell__flag"
     }
 
     const cellContent = {
       mine: "💥",
       number: this.state.count > 0 ? this.state.count : '',
-      flag: "🚩"
+      flag: "🚩",
+      question: "❓"
     }
 
     return (

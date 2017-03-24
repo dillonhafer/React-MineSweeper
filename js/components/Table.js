@@ -1,34 +1,36 @@
 import React from 'react';
-import Row from './Row.js';
+import Row from './Row';
 
 export default class Table extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        rows : this.createTable(props),
+  constructor(props) {
+    super(props);
+    this.state = {
+      rows : this.createTable(props),
+      gameover: false
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.status !== "gameover" && nextProps.status === "gameover") {
+      this.setState({
+        gameover: true
+      });
+    }
+
+    if (this.props.status === "gameover" && nextProps.status === "clear") {
+      this.setState({
         gameover: false
-      };
+      });
     }
-    componentWillReceiveProps(nextProps) {
-      if (this.props.status !== "gameover" && nextProps.status === "gameover") {
-        this.setState({
-          gameover: true
-        });
-      }
 
-      if (this.props.status === "gameover" && nextProps.status === "clear") {
-        this.setState({
-          gameover: false
-        });
-      }
-
-      if(this.props.openNum > nextProps.openNum || this.props.colNum !== nextProps.colNum){
-        this.setState({
-          rows: this.createTable(nextProps),
-          gameover: false
-        });
-      }
+    if(this.props.openNum > nextProps.openNum || this.props.colNum !== nextProps.colNum){
+      this.setState({
+        rows: this.createTable(nextProps),
+        gameover: false
+      });
     }
+  }
+
     createTable(props) {
         var mineTable = [];
         for(var row = 0; row < props.rowNum; row++){
@@ -54,7 +56,7 @@ export default class Table extends React.Component {
         }
         return mineTable;
     }
-    open(cell) {
+    open = (cell) => {
       if (this.state.gameover) {
         return;
       }
@@ -77,15 +79,27 @@ export default class Table extends React.Component {
             this.props.gameOver();
         }
     }
-    mark(cell) {
+  mark = (cell) => {
         if (this.state.gameover) {
           return
         }
         var _rows = this.state.rows;
         var _cell = _rows[cell.y][cell.x];
-        _cell.hasFlag = !_cell.hasFlag;
-        this.setState({rows : _rows});
-        this.props.checkFlagNum(_cell.hasFlag ? 1 : -1);
+        if (_cell.hasFlag) {
+          this.props.checkFlagNum(-1);
+          _cell.hasFlag = false;
+          _cell.hasQuestion = true;
+          this.setState({rows : _rows});
+        } else if (_cell.hasQuestion) {
+          _cell.hasFlag = false;
+          _cell.hasQuestion = false;
+          this.setState({rows : _rows});
+        } else {
+          _cell.hasFlag = !_cell.hasFlag;
+          _cell.hasQuestion = false;
+          this.setState({rows : _rows});
+          this.props.checkFlagNum(_cell.hasFlag ? 1 : -1);
+        }
     }
     countMines(cell) {
         var aroundMinesNum = 0;
@@ -98,14 +112,14 @@ export default class Table extends React.Component {
         }
         return aroundMinesNum;
     }
-    openAroundAll(cell) {
+  openAroundAll = (cell) => {
       if (this.state.gameover) {
         return;
       }
         var _rows = this.state.rows;
         for(var row = -1; row <= 1; row++){
             for(var col = -1; col <= 1; col++){
-                if(cell.y-0 + row >= 0 && cell.x-0 + col >= 0 && cell.y-0 + row < this.state.rows.length && cell.x-0 + col < this.state.rows[0].length && !this.state.rows[cell.y-0 + row][cell.x-0 + col].hasFlag && !this.state.rows[cell.y-0 + row][cell.x-0 + col].isOpened){
+                if(cell.y-0 + row >= 0 && cell.x-0 + col >= 0 && cell.y-0 + row < this.state.rows.length && cell.x-0 + col < this.state.rows[0].length && !this.state.rows[cell.y-0 + row][cell.x-0 + col].hasFlag && !this.state.rows[cell.y-0 + row][cell.x-0 + col].hasQuestion && !this.state.rows[cell.y-0 + row][cell.x-0 + col].isOpened){
                    this.open(_rows[cell.y-0 + row][cell.x-0 + col]);
                 }
             }
@@ -121,18 +135,26 @@ export default class Table extends React.Component {
             }
         }
     }
-    render() {
-        var Rows = this.state.rows.map((row, index) => {
-            return(
-              <Row key={`row-${index}`} cells={row} gameover={this.state.gameover} openAround={this.openAroundAll.bind(this)} open={this.open.bind(this)} mark={this.mark.bind(this)} />
-            );
-        });
-        return(
-            <table className="Table">
-                <tbody>
-                    {Rows}
-                </tbody>
-            </table>
-        );
-    }
+
+  getRow = (row, index) => {
+    return (
+      <Row key={`row-${index}`}
+           cells={row}
+           gameover={this.state.gameover}
+           openAround={this.openAroundAll}
+           open={this.open}
+           mark={this.mark} />
+    );
+  }
+
+  render() {
+    const Rows = this.state.rows.map(this.getRow);
+    return (
+      <table className="Table">
+        <tbody>
+          {Rows}
+        </tbody>
+      </table>
+    );
+  }
 }
